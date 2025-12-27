@@ -51,7 +51,7 @@ class InferencePipeline:
             return {
                 "img_path": img_path,
                 "image_size": {"width": original_width, "height": original_height},
-                "detect_corpuses": []
+                "detect_text_block": []
             }
         
         print(f"✅ Найдено корпусов: {len(bboxes_original)}")
@@ -60,7 +60,7 @@ class InferencePipeline:
         results = {
             "img_path": img_path,
             "image_size": {"width": original_width, "height": original_height},
-            "detect_corpuses": []
+            "detect_text_block": []
         }
         
         for i, bbox_original in enumerate(bboxes_original):
@@ -77,15 +77,15 @@ class InferencePipeline:
                 corpus_img, bbox_original, original_width, original_height
             )
             
-            results["detect_corpuses"].append({
-                "number_corpus": i + 1,
+            results["detect_text_block"].append({
+                "number_text_block": i + 1,
                 "bbox": bbox_original,
                 "segment_lines": segment_lines
             })
             
             print(f"   Найдено строк: {len(segment_lines)}")
         
-        total_lines = sum(len(corpus["segment_lines"]) for corpus in results["detect_corpuses"])
+        total_lines = sum(len(corpus["segment_lines"]) for corpus in results["detect_text_block"])
         print(f"🎯 Всего обработано строк: {total_lines}")
         
         return results
@@ -129,7 +129,7 @@ class InferencePipeline:
         # Отдельная детекция (опционально)
         detect_dir = os.path.join(output_dir, "detection")
         self.detector.save_detection_results(
-            original_img, [corpus["bbox"] for corpus in results["detect_corpuses"]],
+            original_img, [corpus["bbox"] for corpus in results["detect_text_block"]],
             detect_dir, base_filename
         )
         

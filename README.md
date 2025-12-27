@@ -3,11 +3,11 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive pipeline for automatic symbol recognition in Cyrillic historical manuscripts (CyrillicHist). This project provides tools for detecting text corpora and segmenting lines in historical documents with subsequent annotation generation in JSON format for dataset publication on Zenodo.
+A comprehensive pipeline for automatic symbol recognition in Cyrillic historical manuscripts (CyrillicHist). This project provides tools for detecting text corpora and segmenting lines in historical documents with subsequent annotation generation in JSON format for dataset publication on Zenodo (https://zenodo.org/records/18066472)
 
 ## Features
 
-- **Text Corpus Detection**: Automatic detection of text blocks in historical manuscripts
+- **Text Block Detection**: Automatic detection of text blocks in historical manuscripts
 - **Line Segmentation**: Precise segmentation of individual text lines within corpora
 - **Adaptive Binarization**: Automatic image processing and binarization of text lines
 - **Annotation Generation**: Creation of structured annotations in JSON format for dataset publication
@@ -171,46 +171,35 @@ The pipeline generates structured annotations following a standardized format su
 
 ```json
 {
-  "image_path": "manuscripts/evangel_3.jpg",
-  "image_size": {
-    "width": 4000,
-    "height": 3000
-  },
-  "corpuses": [
-    {
-      "number_corpus": 1,
-      "bbox": [100.5, 200.3, 800.7, 500.9],
-      "lines": [
-        {
-          "number_line": 1,
-          "mask": [[110.5, 210.3], [115.5, 210.3], [120.5, 215.3], ...],
-          "bbox": [110.5, 210.3, 790.7, 230.9]
-        }
-      ]
-    }
-  ],
-  "metadata": {
-    "processing_date": "2024-01-15",
-    "pipeline_version": "1.0.0",
-    "model_versions": {
-      "detector": "yolov8n-detection-v1",
-      "segmenter": "yolov8n-segmentation-v1"
-    }
-  }
+  "img_path": img_path,
+  "detect_text_block": [
+      {
+          "number_text_block": int,
+          "bbox": [x1, y1, x2, y2],
+          "segment_lines": [
+              {
+                  "number_line": int,
+                  "mask": [[x1,y1], [x2,y2], ...]
+              }
+          ]
+      }
+  ]
 }
 ```
 
 ### Annotation Structure
 
-- **image_path**: Relative path to the original image
-- **image_size**: Width and height in pixels
-- **corpuses**: Array of detected text corpora
-  - `number_corpus`: Corpus identifier
+- **img_path**: Relative path to the original image
+- **detect_text_block**: Array of detected text corpora
+  - `number_text_block`: Text block identifier
   - `bbox`: Bounding box [x1, y1, x2, y2] in absolute coordinates
-  - `lines`: Array of segmented lines within the corpus
+  - `segment_lines`: Array of segmented lines within the corpus
     - `number_line`: Line identifier within corpus
     - `mask`: Polygon coordinates for line segmentation
-    - `bbox`: Bounding box derived from mask
+
+### Examples Annotations
+
+![Example of segmentation annotations of CyrillicHist dataset.](examples_annotations/examples.png)
 
 ## Pretrained Models
 

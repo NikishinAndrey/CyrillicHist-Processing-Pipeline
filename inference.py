@@ -31,7 +31,7 @@ def main():
         "--detect-model", 
         type=str, 
         default="models/v1/yolo_detect_corpus/detect_n_model/weights/best.pt",
-        help="Path to corpus detection model"
+        help="Path to text block detection model"
     )
     
     parser.add_argument(
@@ -90,7 +90,7 @@ def main():
             # Только инференс
             results = pipeline.run(args.image)
             print(f"✅ Обработка завершена")
-            print(f"   Найдено корпусов: {len(results['detect_corpuses'])}")
+            print(f"   Найдено текстовых блоков: {len(results['detect_corpuses'])}")
             
             total_lines = sum(len(corpus["segment_lines"]) 
                             for corpus in results["detect_corpuses"])

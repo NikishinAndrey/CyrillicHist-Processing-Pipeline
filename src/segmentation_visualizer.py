@@ -98,11 +98,11 @@ class SegmentationVisualizer:
         # Визуализация
         vis_img = original_img.copy()
         
-        for corpus in results["detect_corpuses"]:
+        for corpus in results["detect_text_block"]:
             # Отрисовка корпусов
             x1, y1, x2, y2 = map(int, corpus["bbox"])
             cv2.rectangle(vis_img, (x1, y1), (x2, y2), (0, 255, 0), 3)
-            cv2.putText(vis_img, f"Corpus {corpus['number_corpus']}",
+            cv2.putText(vis_img, f"Corpus {corpus['number_text_block']}",
                        (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             
             # Отрисовка масок строк
@@ -122,14 +122,14 @@ class SegmentationVisualizer:
         lines_dir = os.path.join(output_dir, "lines")
         os.makedirs(lines_dir, exist_ok=True)
         
-        for corpus in results["detect_corpuses"]:
+        for corpus in results["detect_text_block"]:
             for line in corpus["segment_lines"]:
                 SegmentationVisualizer.save_single_line(
                     original_img=original_img,
                     corpus_bbox=corpus["bbox"],
                     line_mask=line["mask"],
                     line_number=line["number_line"],
-                    corpus_number=corpus["number_corpus"],
+                    corpus_number=corpus["number_text_block"],
                     output_dir=lines_dir,
                     base_filename=base_filename
                 )
@@ -168,9 +168,9 @@ class SegmentationVisualizer:
             pass
         
         # Заполнение данных о корпусах
-        for corpus in results["detect_corpuses"]:
+        for corpus in results["detect_text_block"]:
             corpus_data = {
-                "number_corpus": corpus["number_corpus"],
+                "number_text_block": corpus["number_text_block"],
                 "bbox": corpus["bbox"],
                 "lines": []
             }
