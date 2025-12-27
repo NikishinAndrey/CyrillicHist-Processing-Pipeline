@@ -197,7 +197,7 @@ The pipeline generates structured annotations following a standardized format su
     - `number_line`: Line identifier within corpus
     - `mask`: Polygon coordinates for line segmentation
 
-### Examples Annotations
+### Example of segmentation annotations of CyrillicHist dataset
 
 ![Example of segmentation annotations of CyrillicHist dataset.](examples_annotations/examples.png)
 
